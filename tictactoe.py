@@ -20,16 +20,66 @@ def initial_state():
 
 def player(board):
     """
-    Returns player who has the next turn on a board.
+    Determine the current player's turn based on the Tic-Tac-Toe board state.
+
+    Args:
+    board (list of str): The current state of the Tic-Tac-Toe board. Each element represents a cell
+                         on the board and can be 'X', 'O', or ' ' (empty).
+
+    Returns:
+    str: The current player's turn ('X' or 'O').
     """
-    raise NotImplementedError
+    count_x = sum(1 for cell in board if cell == 'X')
+    count_o = sum(1 for cell in board if cell == 'O')
+
+    # X gets the first move, so if X has made fewer moves than O, it's X's turn.
+    if count_x <= count_o:
+        return 'X'
+    else:
+        return 'O'
+
+''' Example usage:
+
+initial_board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+current_turn = current_player(initial_board)
+print(f"It's {current_turn}'s turn.") 
+
+'''
 
 
 def actions(board):
     """
-    Returns set of all possible actions (i, j) available on the board.
+    Determine all possible actions that can be taken on the Tic-Tac-Toe board.
+
+    Args:
+    board (list of str): The current state of the Tic-Tac-Toe board. Each element represents a cell
+                         on the board and can be 'X', 'O', or ' ' (empty).
+
+    Returns:
+    set of tuple: A set of all possible actions, where each action is represented as a tuple (i, j).
+                  'i' corresponds to the row of the move (0, 1, or 2), and 'j' corresponds to which cell
+                  in the row corresponds to the move (0, 1, or 2).
     """
-    raise NotImplementedError
+    possible_actions = set()
+
+    for i in range(3):
+        for j in range(3):
+            if board[i][j] == ' ':
+                possible_actions.add((i, j))
+
+    return possible_actions
+
+''' Example usage:
+
+initial_board = [
+    ['X', 'O', 'X'],
+    [' ', 'X', 'O'],
+    ['O', 'X', ' ']
+]
+possible_moves = actions(initial_board)
+print("Possible Moves:", possible_moves)
+
+'''
 
 
 def result(board, action):
