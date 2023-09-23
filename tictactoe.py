@@ -3,6 +3,7 @@ Tic Tac Toe Player
 """
 
 import math
+import copy
 
 X = "X"
 O = "O"
@@ -81,20 +82,84 @@ print("Possible Moves:", possible_moves)
 
 '''
 
+def is_valid_action(board, action):
+    """
+    Check if the given action is valid for the current board.
 
-def result(board, action):
+    Args:
+    board (list of list): The current state of the Tic-Tac-Toe board.
+    action (tuple): The action to check, represented as a tuple (row, col).
+
+    Returns:
+    bool: True if the action is valid, False otherwise.
     """
-    Returns the board that results from making move (i, j) on the board.
+    row, col = action
+    if 0 <= row < 3 and 0 <= col < 3 and board[row][col] == ' ':
+        return True
+    return False
+
+def result(board, action, player):
     """
-    raise NotImplementedError
+    Get the result of applying the given action to the current board for a specific player.
+
+    Args:
+    board (list of list): The current state of the Tic-Tac-Toe board.
+    action (tuple): The action to apply, represented as a tuple (row, col).
+    player (str): The player making the move ('X' or 'O').
+
+    Returns:
+    list of list: The new board state after applying the action.
+    
+    Raises:
+    ValueError: If the action is not valid for the current board.
+    """
+    if not is_valid_action(board, action):
+        raise ValueError("Invalid action")
+
+    new_board = copy.deepcopy(board)  # Create a deep copy to keep the original board intact
+    row, col = action
+    new_board[row][col] = player  # Apply the player's move to the new board
+    return new_board
 
 
 def winner(board):
     """
-    Returns the winner of the game, if there is one.
-    """
-    raise NotImplementedError
+    Determine the winner of the Tic-Tac-Toe game.
 
+    Args:
+    board (list of list): The current state of the Tic-Tac-Toe board.
+
+    Returns:
+    str or None: The winner ('X' or 'O') if there is one, or None if there is no winner.
+    """
+    # Check rows, columns, and diagonals for a win
+    for i in range(3):
+        # Check rows
+        if board[i][0] == board[i][1] == board[i][2] and board[i][0] != ' ':
+            return board[i][0]
+        # Check columns
+        if board[0][i] == board[1][i] == board[2][i] and board[0][i] != ' ':
+            return board[0][i]
+
+    # Check diagonals
+    if board[0][0] == board[1][1] == board[2][2] and board[0][0] != ' ':
+        return board[0][0]
+    if board[0][2] == board[1][1] == board[2][0] and board[0][2] != ' ':
+        return board[0][2]
+
+    return None  # No winner found
+
+''' Example usage:
+
+current_board = [
+    ['X', 'O', 'X'],
+    ['O', 'X', 'O'],
+    ['O', 'X', ' ']
+]
+result = winner(current_board)
+print("Winner:", result)
+
+'''
 
 def terminal(board):
     """
