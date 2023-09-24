@@ -113,6 +113,7 @@ def result(board, action, player):
     Raises:
     ValueError: If the action is not valid for the current board.
     """
+    
     if not is_valid_action(board, action):
         raise ValueError("Invalid action")
 
@@ -132,6 +133,7 @@ def winner(board):
     Returns:
     str or None: The winner ('X' or 'O') if there is one, or None if there is no winner.
     """
+    
     # Check rows, columns, and diagonals for a win
     for i in range(3):
         # Check rows
@@ -171,6 +173,7 @@ def terminal(board):
     Returns:
     bool: True if the game is over, False if it is still in progress.
     """
+    
     # Check if there is a winner
     winner_player = winner(board)
     if winner_player:
@@ -203,6 +206,7 @@ def utility(board):
     Returns:
     int: The utility of the board (1 for 'X' win, -1 for 'O' win, 0 for a tie).
     """
+    
     winner_player = winner(board)
 
     if winner_player == 'X':
