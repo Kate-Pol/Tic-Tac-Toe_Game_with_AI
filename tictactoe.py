@@ -163,17 +163,64 @@ print("Winner:", result)
 
 def terminal(board):
     """
-    Returns True if game is over, False otherwise.
-    """
-    raise NotImplementedError
+    Determine if the Tic-Tac-Toe game is over.
 
+    Args:
+    board (list of list): The current state of the Tic-Tac-Toe board.
+
+    Returns:
+    bool: True if the game is over, False if it is still in progress.
+    """
+    # Check if there is a winner
+    winner_player = winner(board)
+    if winner_player:
+        return True  # Game is over, there's a winner
+
+    # Check if all cells are filled
+    for row in board:
+        if ' ' in row:
+            return False  # Game is still in progress, at least one empty cell
+
+    return True  # Game is over, it's a tie (all cells filled, but no winner)
+
+''' Example usage:
+current_board = [
+    ['X', 'O', 'X'],
+    ['O', 'X', 'O'],
+    ['O', 'X', 'X']
+]
+result = terminal(current_board)
+print("Game Over:", result)
+'''
 
 def utility(board):
     """
-    Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
-    """
-    raise NotImplementedError
+    Calculate the utility (score) of the terminal Tic-Tac-Toe board.
 
+    Args:
+    board (list of list): The terminal state of the Tic-Tac-Toe board.
+
+    Returns:
+    int: The utility of the board (1 for 'X' win, -1 for 'O' win, 0 for a tie).
+    """
+    winner_player = winner(board)
+
+    if winner_player == 'X':
+        return 1  # 'X' has won, utility is 1
+    elif winner_player == 'O':
+        return -1  # 'O' has won, utility is -1
+    else:
+        return 0  # It's a tie, utility is 0
+
+''' Example usage:
+terminal_board_x_win = [
+    ['X', 'O', 'X'],
+    ['O', 'X', 'O'],
+    ['O', 'X', 'X']
+]
+result = utility(terminal_board_x_win)
+print("Utility:", result)
+'''
 
 def minimax(board):
     """
