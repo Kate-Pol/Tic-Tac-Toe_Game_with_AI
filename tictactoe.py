@@ -228,6 +228,48 @@ print("Utility:", result)
 
 def minimax(board):
     """
-    Returns the optimal action for the current player on the board.
+    Determine the optimal move for the player whose turn it is on the Tic-Tac-Toe board.
+
+    Args:
+    board (list of list): The current state of the Tic-Tac-Toe board.
+
+    Returns:
+    tuple or None: The optimal move as a tuple (i, j), or None if the board is terminal.
     """
-    raise NotImplementedError
+    def max_value(board):
+        if terminal(board):
+            return utility(board)
+
+        v = float('-inf')
+        best_move = None
+
+        for action in actions(board):
+            min_result = min_value(result(board, action, 'X'))
+            if min_result > v:
+                v = min_result
+                best_move = action
+
+        return best_move
+
+    def min_value(board):
+        if terminal(board):
+            return utility(board)
+
+        v = float('inf')
+        best_move = None
+
+        for action in actions(board):
+            max_result = max_value(result(board, action, 'O'))
+            if max_result < v:
+                v = max_result
+                best_move = action
+
+        return best_move
+
+    if terminal(board):
+        return None
+
+    if current_player(board) == 'X':
+        return max_value(board)
+    else:
+        return min_value(board)
